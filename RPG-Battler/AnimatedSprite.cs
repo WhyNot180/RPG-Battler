@@ -15,17 +15,19 @@ namespace RPG_Battler
         public int Columns { get; set; }
         private int currentFrame;
         private int totalFrames;
-        public AnimatedSprite(Texture2D texture, int rows, int columns)
+        public float Scale {  get; set; }
+        public AnimatedSprite(Texture2D texture, int rows, int columns, float scale)
         {
             Texture = texture;
             Rows = rows;
             Columns = columns;
             currentFrame = 0;
             totalFrames = Rows * Columns;
+            Scale = scale;
         }
-        public void Update(int currentSeconds)
+        public void Update(int currentMilli, double fps)
         {
-            if (currentSeconds % 100 == 0) 
+            if (currentMilli % (1/fps * 1000) == 0) 
                 currentFrame++;
             if (currentFrame == totalFrames)
                 currentFrame = 0;
@@ -38,9 +40,9 @@ namespace RPG_Battler
             int column = currentFrame % Columns;
 
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
-            Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width*2, height*2);
+            Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
 
-            spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
+            spriteBatch.Draw(Texture, location, sourceRectangle, Color.White, 0, new Vector2(0,0), Scale, SpriteEffects.None, 0);
         }
     }
 }

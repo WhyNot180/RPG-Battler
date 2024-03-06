@@ -52,7 +52,7 @@ namespace RPG_Battler
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
             player.draw(_spriteBatch);
 

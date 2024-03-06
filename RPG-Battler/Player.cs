@@ -25,13 +25,13 @@ namespace RPG_Battler
         public void load(ContentManager Content)
         {
             idleTextures = Content.Load<Texture2D>("player_idle");
-            playerIdle = new AnimatedSprite(idleTextures, 1, 5);
+            playerIdle = new AnimatedSprite(idleTextures, 1, 5, 2);
         }
 
         public void animate(GameTime gameTime)
         {
-            int currentSeconds = gameTime.TotalGameTime.Milliseconds;
-            playerIdle.Update(currentSeconds);
+            int currentMilli = gameTime.TotalGameTime.Milliseconds;
+            playerIdle.Update(currentMilli, 10);
         }
 
         public void draw(SpriteBatch _spriteBatch)
