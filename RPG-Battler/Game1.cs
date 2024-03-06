@@ -8,6 +8,7 @@ namespace RPG_Battler
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Player player;
 
         public Game1()
         {
@@ -20,12 +21,16 @@ namespace RPG_Battler
         {
             // TODO: Add your initialization logic here
 
+            player = new Player("Bob");
+
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            player.load(Content);
 
             // TODO: use this.Content to load your game content here
         }
@@ -37,6 +42,8 @@ namespace RPG_Battler
 
             // TODO: Add your update logic here
 
+            player.animate(gameTime); 
+
             base.Update(gameTime);
         }
 
@@ -45,6 +52,11 @@ namespace RPG_Battler
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+
+            player.draw(_spriteBatch);
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

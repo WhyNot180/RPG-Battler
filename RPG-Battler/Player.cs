@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Net.Mime;
 
 namespace RPG_Battler
 {
@@ -10,6 +12,8 @@ namespace RPG_Battler
         private static int numberOfPlayers = 0;
         public string Name { get; }
         public Stats Stats { get; set; }
+        private AnimatedSprite playerIdle;
+        private Texture2D idleTextures;
 
         public Player(string name) 
         {
@@ -18,8 +22,21 @@ namespace RPG_Battler
             this.Stats = new Stats(100, 100, 30, 20, 25, 10, 15, 30);
         }
 
+        public void load(ContentManager Content)
+        {
+            idleTextures = Content.Load<Texture2D>("player_idle");
+            playerIdle = new AnimatedSprite(idleTextures, 1, 5);
+        }
+
+        public void animate(GameTime gameTime)
+        {
+            int currentSeconds = gameTime.TotalGameTime.Milliseconds;
+            playerIdle.Update(currentSeconds);
+        }
+
         public void draw(SpriteBatch _spriteBatch)
         {
+            playerIdle.Draw(_spriteBatch, position);
         }
     }
 }
