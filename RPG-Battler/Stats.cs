@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RPG_Battler
 {
-    internal class Stats
+    public class Stats
     {
 
         public int HP {  get; set; }
