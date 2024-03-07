@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RPG_Battler
 {
@@ -20,6 +21,11 @@ namespace RPG_Battler
         public int Resistance { get; set; }
         public int Accuracy { get; set; }
 
+        public Stats(Stats stats) : this()
+        {
+            addAll(stats);
+        }
+
         public Stats(int maxHP, int maxSP, int speed, int damage, int defense, int luck, int resistance, int accuracy)
         {
             HP = maxHP;
@@ -32,6 +38,20 @@ namespace RPG_Battler
             Luck = luck;
             Resistance = resistance;
             Accuracy = accuracy;
+        }
+
+        public Stats()
+        {
+            HP = 0;
+            MaxHP = 0;
+            SP = 0;
+            MaxSP = 0;
+            Speed = 0;
+            Damage = 0;
+            Defense = 0;
+            Luck = 0;
+            Resistance = 0;
+            Accuracy = 0;
         }
 
         public Stats addAll(Stats stats)

@@ -41,7 +41,7 @@ namespace RPG_Battler
                 Exit();
 
             // TODO: Add your update logic here
-
+            player.update(Keyboard.GetState());
             player.animate(gameTime); 
 
             base.Update(gameTime);
