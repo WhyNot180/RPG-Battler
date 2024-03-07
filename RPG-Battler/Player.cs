@@ -14,6 +14,7 @@ namespace RPG_Battler
         public Stats Stats { get; set; }
         private AnimatedSprite playerIdle;
         private Texture2D idleTextures;
+        private Vampire vampire;
 
         public Player(string name) 
         {
@@ -24,19 +25,23 @@ namespace RPG_Battler
 
         public void load(ContentManager Content)
         {
-            idleTextures = Content.Load<Texture2D>("player_idle");
-            playerIdle = new AnimatedSprite(idleTextures, 1, 5, 2);
+            vampire = new Vampire(Content);
+        }
+
+        public void update(KeyboardState keyboardState)
+        {
+            vampire.update(keyboardState);
         }
 
         public void animate(GameTime gameTime)
         {
             int currentMilli = gameTime.TotalGameTime.Milliseconds;
-            playerIdle.Update(currentMilli, 10);
+            vampire.animate(currentMilli);
         }
 
         public void draw(SpriteBatch _spriteBatch)
         {
-            playerIdle.Draw(_spriteBatch, position);
+            vampire.draw(_spriteBatch, position);
         }
     }
 }
