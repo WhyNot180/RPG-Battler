@@ -17,11 +17,18 @@ namespace RPG_Battler
         protected AnimatedSprite attackAnimation;
         protected AnimatedSprite hurtAnimation;
         protected AnimatedSprite deathAnimation;
-        private int animationState = 0;
-        public int AnimationState { 
-            get { return animationState; } 
-            set { 
-                animationState = value;
+        private AnimationState currentState = PlayerType.AnimationState.IDLE;
+        public enum AnimationState
+        {
+            IDLE,
+            ATTACK,
+            HURT,
+            DEATH
+        }
+        public AnimationState CurrentState { 
+            get { return currentState; } 
+            set {
+                currentState = value;
                 idleAnimation.Reset();
                 attackAnimation.Reset();
                 hurtAnimation.Reset();
@@ -34,33 +41,33 @@ namespace RPG_Battler
 
             if (keyboardState.IsKeyDown(Keys.D0)) 
             {
-                AnimationState = 0;
+                CurrentState = AnimationState.IDLE;
             } else if (keyboardState.IsKeyDown(Keys.D1))
             {
-                AnimationState = 1;
+                CurrentState = AnimationState.ATTACK;
             } else if (keyboardState.IsKeyDown(Keys.D2))
             {
-                AnimationState = 2;
+                CurrentState = AnimationState.HURT;
             } else if (keyboardState.IsKeyDown(Keys.D3))
             {
-                AnimationState = 3;
+                CurrentState = AnimationState.DEATH;
             }
         }
 
         public virtual void animate(int currentMilli)
         {
-            switch (AnimationState)
+            switch (CurrentState)
             {
-                case 0:
+                case AnimationState.IDLE:
                     idleAnimation.Update(currentMilli, 10);
                     break;
-                case 1:
+                case AnimationState.ATTACK:
                     attackAnimation.Update(currentMilli, 10);
                     break;
-                case 2:
+                case AnimationState.HURT:
                     hurtAnimation.Update(currentMilli, 10);
                     break;
-                case 3:
+                case AnimationState.DEATH:
                     deathAnimation.Update(currentMilli, 10);
                     break;
             }
@@ -68,18 +75,18 @@ namespace RPG_Battler
 
         public virtual void draw(SpriteBatch spriteBatch, Vector2 position)
         {
-            switch (AnimationState)
+            switch (CurrentState)
             {
-                case 0:
+                case AnimationState.IDLE:
                     idleAnimation.Draw(spriteBatch, position);
                     break;
-                case 1:
+                case AnimationState.ATTACK:
                     attackAnimation.Draw(spriteBatch, position);
                     break;
-                case 2:
+                case AnimationState.HURT:
                     hurtAnimation.Draw(spriteBatch, position);
                     break;
-                case 3:
+                case AnimationState.DEATH:
                     deathAnimation.Draw(spriteBatch, position);
                     break;
             }

@@ -44,9 +44,8 @@ namespace RPG_Battler
             int column = currentFrame % Columns;
 
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
-            Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
 
-            spriteBatch.Draw(Texture, location, sourceRectangle, Color.White, 0, new Vector2(0,0), Scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(Texture, location, sourceRectangle, Color.White, 0, location, Scale, SpriteEffects.None, 0);
         }
     }
 }
