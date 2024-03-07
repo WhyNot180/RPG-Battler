@@ -11,6 +11,8 @@ namespace RPG_Battler
 {
     public abstract class PlayerType
     {
+        public Stats BaseStats {  get; set; }
+
         protected AnimatedSprite idleAnimation;
         protected AnimatedSprite attackAnimation;
         protected AnimatedSprite hurtAnimation;
@@ -26,8 +28,6 @@ namespace RPG_Battler
                 deathAnimation.Reset();
             } 
         }
-        public Stats BaseStats {  get; set; }
-        public abstract void passive();
 
         public void update(KeyboardState keyboardState)
         {
@@ -85,6 +85,7 @@ namespace RPG_Battler
             }
 
         }
+        public abstract void passive();
 
     }
 }
