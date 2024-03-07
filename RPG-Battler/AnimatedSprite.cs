@@ -25,6 +25,10 @@ namespace RPG_Battler
             totalFrames = Rows * Columns;
             Scale = scale;
         }
+        public void Reset()
+        {
+            currentFrame = 0;
+        }
         public void Update(int currentMilli, double fps)
         {
             if (currentMilli % (1/fps * 1000) == 0) 
