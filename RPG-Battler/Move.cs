@@ -14,11 +14,19 @@ namespace RPG_Battler
         protected int baseAccuracy;
         protected int chargeTime;
 
-        protected abstract bool calculateHit(int accuracy);
+        protected virtual double calculateSpread(int accuracy)
+        {
+            Random rand = new Random();
+            return Math.Log10(accuracy * baseAccuracy) - rand.NextDouble() * baseAccuracy + rand.Next() * baseAccuracy;
+        }
 
-        protected abstract bool calculateDamage(Stats stats);
+        protected abstract int calculateDamage(Stats attackerStats, Stats defenderStats);
 
-        public abstract void attack(Stats stats);
+        public void attack(Stats attackerStats, Stats defenderStats)
+        {
+            int damage = calculateDamage(attackerStats, defenderStats);
+            defenderStats.HP -= damage;
+        }
 
     }
 }
