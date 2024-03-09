@@ -36,24 +36,6 @@ namespace RPG_Battler
             } 
         }
 
-        public void update(KeyboardState keyboardState)
-        {
-
-            if (keyboardState.IsKeyDown(Keys.D0)) 
-            {
-                CurrentState = AnimationState.IDLE;
-            } else if (keyboardState.IsKeyDown(Keys.D1))
-            {
-                CurrentState = AnimationState.ATTACK;
-            } else if (keyboardState.IsKeyDown(Keys.D2))
-            {
-                CurrentState = AnimationState.HURT;
-            } else if (keyboardState.IsKeyDown(Keys.D3))
-            {
-                CurrentState = AnimationState.DEATH;
-            }
-        }
-
         public virtual void animate(int currentMilli)
         {
             switch (CurrentState)

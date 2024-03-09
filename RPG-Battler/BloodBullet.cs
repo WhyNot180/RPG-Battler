@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace RPG_Battler
         {
             int damage = attackerStats.Damage;
             int defense = defenderStats.First().Defense;
-            return Convert.ToInt32((damage - defense)*calculateSpread(attackerStats.Accuracy));
+            return (int) Math.Round((damage - defense)*calculateSpread(attackerStats.Accuracy));
         }
     }
 }

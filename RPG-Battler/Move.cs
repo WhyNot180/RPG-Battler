@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace RPG_Battler
         protected virtual double calculateSpread(int accuracy)
         {
             Random rand = new Random();
-            return Math.Log10(accuracy * baseAccuracy) - rand.NextDouble() * baseAccuracy + rand.Next() * baseAccuracy;
+            return Math.Log10(accuracy * baseAccuracy) - rand.NextDouble() * baseAccuracy + rand.NextDouble() * baseAccuracy;
         }
 
         protected abstract int calculateDamage(Stats attackerStats, List<Stats> defenderStatsList);
