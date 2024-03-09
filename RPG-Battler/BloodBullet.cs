@@ -12,6 +12,7 @@ namespace RPG_Battler
         public BloodBullet() 
         {
             baseAccuracy = 0.5;
+            Animation = PlayerType.AnimationState.ATTACK;
         }
 
         protected override int calculateDamage(Stats attackerStats, List<Stats> defenderStats)

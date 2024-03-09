@@ -8,7 +8,7 @@ namespace RPG_Battler
 {
     public interface ISelectable<T>
     {
-        void select(T propertyOfSelected, List<T> otherProperties);
+        void select();
         string Name { get; }
         string Description { get; }
     }

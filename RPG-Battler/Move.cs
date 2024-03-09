@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RPG_Battler
 {
-    public abstract class Move : ISelectable<Stats>
+    public abstract class Move
     {
         protected int cooldown;
         protected int specialPointsUse;
@@ -14,6 +14,7 @@ namespace RPG_Battler
         protected int chargeTime;
         public string Name { get; protected set; }
         public string Description { get; protected set; }
+        public PlayerType.AnimationState Animation {  get; protected set; }
 
         protected virtual double calculateSpread(int accuracy)
         {
@@ -23,15 +24,10 @@ namespace RPG_Battler
 
         protected abstract int calculateDamage(Stats attackerStats, List<Stats> defenderStatsList);
 
-        protected virtual void attack(Stats attackerStats, List<Stats> defenderStatsList)
+        public virtual void attack(Stats attackerStats, List<Stats> defenderStatsList)
         {
             int damage = calculateDamage(attackerStats, defenderStatsList);
             defenderStatsList.First().HP -= damage;
-        }
-
-        public virtual void select(Stats attackerStats, List<Stats> defenderStatsList)
-        {
-            attack(attackerStats, defenderStatsList);
         }
 
     }
