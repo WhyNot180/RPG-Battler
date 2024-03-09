@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace RPG_Battler
 {
-    public abstract class Move
+    public abstract class Move : ISelectable<Stats>
     {
-        public string name;
         protected int cooldown;
         protected int specialPointsUse;
-        protected int baseAccuracy;
+        protected double baseAccuracy;
         protected int chargeTime;
+        public string Name { get; protected set; }
+        public string Description { get; protected set; }
 
         protected virtual double calculateSpread(int accuracy)
         {
@@ -20,12 +21,17 @@ namespace RPG_Battler
             return Math.Log10(accuracy * baseAccuracy) - rand.NextDouble() * baseAccuracy + rand.Next() * baseAccuracy;
         }
 
-        protected abstract int calculateDamage(Stats attackerStats, Stats defenderStats);
+        protected abstract int calculateDamage(Stats attackerStats, List<Stats> defenderStatsList);
 
-        public void attack(Stats attackerStats, Stats defenderStats)
+        protected virtual void attack(Stats attackerStats, List<Stats> defenderStatsList)
         {
-            int damage = calculateDamage(attackerStats, defenderStats);
-            defenderStats.HP -= damage;
+            int damage = calculateDamage(attackerStats, defenderStatsList);
+            defenderStatsList.First().HP -= damage;
+        }
+
+        public virtual void select(Stats attackerStats, List<Stats> defenderStatsList)
+        {
+            attack(attackerStats, defenderStatsList);
         }
 
     }

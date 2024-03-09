@@ -8,10 +8,16 @@ namespace RPG_Battler
 {
     public class BloodBullet : Move
     {
-        protected override int calculateDamage(Stats attackerStats, Stats defenderStats)
+
+        public BloodBullet() 
+        {
+            baseAccuracy = 0.5;
+        }
+
+        protected override int calculateDamage(Stats attackerStats, List<Stats> defenderStats)
         {
             int damage = attackerStats.Damage;
-            int defense = defenderStats.Defense;
+            int defense = defenderStats.First().Defense;
             return Convert.ToInt32((damage - defense)*calculateSpread(attackerStats.Accuracy));
         }
     }
