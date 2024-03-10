@@ -7,6 +7,7 @@
 ## Installation
 
 ## Design
+![Game Breakdown](images/game-breakdown.png)
 
 ### Goals
 
