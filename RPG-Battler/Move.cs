@@ -23,12 +23,12 @@ namespace RPG_Battler
             return Math.Log10(accuracy * baseAccuracy) - rand.NextDouble() * baseAccuracy + rand.NextDouble() * baseAccuracy;
         }
 
-        protected abstract int calculateDamage(Stats attackerStats, List<Stats> defenderStatsList);
+        protected abstract int calculateDamage(Stats attackerStats, Stats defenderStats);
 
-        public virtual void attack(Stats attackerStats, List<Stats> defenderStatsList)
+        public virtual void attack(Stats attackerStats, Stats defenderStats)
         {
-            int damage = calculateDamage(attackerStats, defenderStatsList);
-            defenderStatsList.First().HP -= damage;
+            int damage = calculateDamage(attackerStats, defenderStats);
+            defenderStats.HP -= damage;
         }
 
     }

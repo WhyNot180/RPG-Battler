@@ -16,10 +16,10 @@ namespace RPG_Battler
             Animation = PlayerType.AnimationState.ATTACK;
         }
 
-        protected override int calculateDamage(Stats attackerStats, List<Stats> defenderStats)
+        protected override int calculateDamage(Stats attackerStats, Stats defenderStats)
         {
             int damage = attackerStats.Damage;
-            int defense = defenderStats.First().Defense;
+            int defense = defenderStats.Defense;
             return (int) Math.Round((damage - defense)*calculateSpread(attackerStats.Accuracy));
         }
     }
