@@ -10,61 +10,78 @@ using System.Net.Mime;
 
 namespace RPG_Battler
 {
-    public class Player
+    public class Player 
     {
-        private Vector2 position = new Vector2(0,0);
+        public enum SelectableActions
+        {
+            IDLE,
+            ATTACK  
+        }
+
+        private Vector2 position;
+
         public string Name { get; }
+
         public Stats Stats { get; set; }
-        private Stats testStats = new Stats(100, 100, 30, 20, 25, 10, 15, 30);
-        private List<Stats> testStatsList = new List<Stats>();
-        private Vampire vampire;
-        private int moveIndex = 0;
+
+        private PlayerType playerType;
+
         private List<Move> playerMoves = new List<Move> {new BloodBullet() };
 
-        public Player(string name) 
+        public int MaxMoves { get; private set; }
+
+        private bool endTurn = false;
+
+        public bool EndTurn
+        {
+            get
+            {
+                bool isTurnEnd = endTurn;
+                // Reset EndTurn when called
+                endTurn = false;
+                return isTurnEnd;
+            }
+        }
+
+        public Player(string name, Vector2 position) 
         {
             this.Name = name;
+            MaxMoves = playerMoves.Count;
+            this.position = position;
         }
 
         public void load(ContentManager Content)
         {
-            vampire = new Vampire(Content);
-            this.Stats = vampire.BaseStats;
-            testStatsList.Add(testStats);
-        }
-
-        private KeyboardState pastState = Keyboard.GetState();
-        public void update(KeyboardState keyboardState)
-        {
-            if (keyboardState.IsKeyDown(Keys.Up) && (keyboardState.IsKeyDown(Keys.Up) != pastState.IsKeyDown(Keys.Up)))
-            {
-                moveIndex++;
-                if (moveIndex == playerMoves.Count) moveIndex = 0;
-
-            } else if (keyboardState.IsKeyDown(Keys.Down) && (keyboardState.IsKeyDown(Keys.Down) != pastState.IsKeyDown(Keys.Down)))
-            {
-                moveIndex--;
-                if (moveIndex == -1) moveIndex = 0;
-            }
-
-            if (keyboardState.IsKeyDown(Keys.Enter) && (keyboardState.IsKeyDown(Keys.Enter) != pastState.IsKeyDown(Keys.Enter))) 
-            {
-                Move move = playerMoves.ElementAt(moveIndex);
-                move.attack(Stats, testStatsList);
-                vampire.CurrentState = move.Animation;
-            }
-            pastState = keyboardState;
+            playerType = new Vampire(Content);
+            this.Stats = playerType.BaseStats;
         }
 
         public void animate(GameTime gameTime)
         {
             int currentMilli = gameTime.TotalGameTime.Milliseconds;
-            vampire.animate(currentMilli);
+            playerType.animate(currentMilli);
         }
 
         public void draw(SpriteBatch _spriteBatch)
         {
-            vampire.draw(_spriteBatch, position);
+            playerType.draw(_spriteBatch, position);
+        }
+
+        public void useCurrentSelectedAction(Player player, int buttonIndex, SelectableActions action)
+        {
+            switch (action)
+            {
+                case SelectableActions.ATTACK:
+                    playerMoves.ElementAt(buttonIndex).attack(Stats, player.Stats);
+                    playerType.CurrentState = PlayerType.AnimationState.ATTACK;
+                    player.playerType.CurrentState = PlayerType.AnimationState.HURT;
+
+                    // TODO: Figure out a way to set this after animations finish
+                    endTurn = true;
+
+                    break;
+            }
+            
         }
     }
 }
