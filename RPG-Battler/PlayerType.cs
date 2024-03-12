@@ -38,16 +38,19 @@ namespace RPG_Battler
 
         public virtual void animate(int currentMilli)
         {
+            bool isFinished;
             switch (CurrentState)
             {
                 case AnimationState.IDLE:
                     idleAnimation.Update(currentMilli, 10);
                     break;
                 case AnimationState.ATTACK:
-                    attackAnimation.Update(currentMilli, 10);
+                    isFinished = attackAnimation.Update(currentMilli, 10);
+                    if (isFinished) CurrentState = AnimationState.IDLE;
                     break;
                 case AnimationState.HURT:
-                    hurtAnimation.Update(currentMilli, 10);
+                    isFinished = hurtAnimation.Update(currentMilli, 10);
+                    if (isFinished) CurrentState = AnimationState.IDLE;
                     break;
                 case AnimationState.DEATH:
                     deathAnimation.Update(currentMilli, 10);
