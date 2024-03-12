@@ -39,6 +39,7 @@ namespace RPG_Battler
                 deathAnimation.Reset();
             }
         }
+        public AnimationState turnStartState = AnimationState.IDLE;
 
         private Vector2 position;
 
@@ -141,14 +142,15 @@ namespace RPG_Battler
                 case SelectableActions.ATTACK:
                     playerMoves.ElementAt(buttonIndex).attack(Stats, player.Stats);
                     CurrentState = AnimationState.ATTACK;
+                    player.turnStartState = AnimationState.HURT;
                     break;
             }
             
         }
 
-        public void onTurnStart(AnimationState state)
+        public void onTurnStart()
         {
-            CurrentState = state;
+            CurrentState = turnStartState;
         }
     }
 }

@@ -70,7 +70,7 @@ namespace RPG_Battler
                     if (players.ElementAt(currentPlayerTurn).EndTurn)
                     {
                         currentPlayerTurn++;
-                        enemyPlayer.onTurnStart(Player.AnimationState.HURT);
+                        enemyPlayer.onTurnStart();
                     }
                     if (currentPlayerTurn >= players.Count) currentPlayerTurn = 0;
                     break;
@@ -116,7 +116,10 @@ namespace RPG_Battler
 
         private void selectMove(Player currentPlayer, Player enemyPlayer)
         {
-            if (_keyboardState.IsKeyDown(Keys.Enter) && (_keyboardState.IsKeyDown(Keys.Enter) != _previousKeyboardState.IsKeyDown(Keys.Enter)))
+            bool idle = currentPlayer.CurrentState == Player.AnimationState.IDLE;
+            bool enterPressed = _keyboardState.IsKeyDown(Keys.Enter) && (_keyboardState.IsKeyDown(Keys.Enter) != _previousKeyboardState.IsKeyDown(Keys.Enter));
+
+            if (enterPressed && idle)
             {
                 currentPlayer.useCurrentSelectedAction(enemyPlayer, buttonIndex, Player.SelectableActions.ATTACK);
             }
