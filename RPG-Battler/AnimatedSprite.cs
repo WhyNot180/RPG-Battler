@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RPG_Battler
@@ -29,12 +30,17 @@ namespace RPG_Battler
         {
             currentFrame = 0;
         }
-        public void Update(int currentMilli, double fps)
+        public bool Update(int currentMilli, double fps)
         {
+            bool isFinished = false;
             if (currentMilli % (1/fps * 1000) == 0) 
                 currentFrame++;
             if (currentFrame == totalFrames)
+            {
                 currentFrame = 0;
+                isFinished = true;
+            }
+            return isFinished;
         }
         public void Draw(SpriteBatch spriteBatch, Vector2 location)
         {
