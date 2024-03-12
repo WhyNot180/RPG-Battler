@@ -63,12 +63,16 @@ namespace RPG_Battler
             switch (_state)
             {
                 case GameState.FIGHT:
-                    if (players.ElementAt(currentPlayerTurn).EndTurn) currentPlayerTurn++;
-                    if (currentPlayerTurn >= players.Count) currentPlayerTurn = 0;
                     Player currentPlayer = players.ElementAt(currentPlayerTurn);
                     Player enemyPlayer = players.ElementAt((currentPlayerTurn + 1) % 2);
                     selectButton(currentPlayer.MaxMoves);
                     selectMove(currentPlayer, enemyPlayer);
+                    if (players.ElementAt(currentPlayerTurn).EndTurn)
+                    {
+                        currentPlayerTurn++;
+                        enemyPlayer.onTurnStart(Player.AnimationState.HURT);
+                    }
+                    if (currentPlayerTurn >= players.Count) currentPlayerTurn = 0;
                     break;
             }
 

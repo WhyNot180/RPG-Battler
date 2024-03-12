@@ -15,7 +15,7 @@ namespace RPG_Battler
         protected int chargeTime;
         public string Name { get; protected set; }
         public string Description { get; protected set; }
-        public PlayerType.AnimationState Animation {  get; protected set; }
+        public Player.AnimationState Animation {  get; protected set; }
 
         protected virtual double calculateSpread(int accuracy)
         {

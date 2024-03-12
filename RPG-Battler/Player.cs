@@ -1,12 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Net.Mime;
 
 namespace RPG_Battler
 {
@@ -16,6 +12,32 @@ namespace RPG_Battler
         {
             IDLE,
             ATTACK  
+        }
+
+        protected AnimatedSprite idleAnimation;
+        protected AnimatedSprite attackAnimation;
+        protected AnimatedSprite hurtAnimation;
+        protected AnimatedSprite deathAnimation;
+
+        private AnimationState currentState = AnimationState.IDLE;
+        public enum AnimationState
+        {
+            IDLE,
+            ATTACK,
+            HURT,
+            DEATH
+        }
+        public AnimationState CurrentState
+        {
+            get { return currentState; }
+            set
+            {
+                currentState = value;
+                idleAnimation.Reset();
+                attackAnimation.Reset();
+                hurtAnimation.Reset();
+                deathAnimation.Reset();
+            }
         }
 
         private Vector2 position;
@@ -54,17 +76,62 @@ namespace RPG_Battler
         {
             playerType = new Vampire(Content);
             this.Stats = playerType.BaseStats;
+            idleAnimation = playerType.IdleAnimation;
+            attackAnimation = playerType.AttackAnimation;
+            hurtAnimation = playerType.HurtAnimation;
+            deathAnimation = playerType.DeathAnimation;
         }
 
         public void animate(GameTime gameTime)
         {
             int currentMilli = gameTime.TotalGameTime.Milliseconds;
-            playerType.animate(currentMilli);
+            animatePlayerType(currentMilli);
         }
 
-        public void draw(SpriteBatch _spriteBatch)
+        private void animatePlayerType(int currentMilli)
         {
-            playerType.draw(_spriteBatch, position);
+            bool isFinished = false;
+            switch (CurrentState)
+            {
+                case AnimationState.IDLE:
+                    idleAnimation.Update(currentMilli, 10);
+                    break;
+                case AnimationState.ATTACK:
+                    isFinished = attackAnimation.Update(currentMilli, 10);
+                    if (isFinished) 
+                    { 
+                        CurrentState = AnimationState.IDLE;
+                        endTurn = true;
+                    }
+                    break;
+                case AnimationState.HURT:
+                    isFinished = hurtAnimation.Update(currentMilli, 10);
+                    if (isFinished) CurrentState = AnimationState.IDLE;
+                    break;
+                case AnimationState.DEATH:
+                    deathAnimation.Update(currentMilli, 10);
+                    break;
+            }
+        }
+
+        public void draw(SpriteBatch spriteBatch)
+        {
+            switch (CurrentState)
+            {
+                case AnimationState.IDLE:
+                    idleAnimation.Draw(spriteBatch, position);
+                    break;
+                case AnimationState.ATTACK:
+                    attackAnimation.Draw(spriteBatch, position);
+                    break;
+                case AnimationState.HURT:
+                    hurtAnimation.Draw(spriteBatch, position);
+                    break;
+                case AnimationState.DEATH:
+                    deathAnimation.Draw(spriteBatch, position);
+                    break;
+            }
+
         }
 
         public void useCurrentSelectedAction(Player player, int buttonIndex, SelectableActions action)
@@ -73,15 +140,15 @@ namespace RPG_Battler
             {
                 case SelectableActions.ATTACK:
                     playerMoves.ElementAt(buttonIndex).attack(Stats, player.Stats);
-                    playerType.CurrentState = PlayerType.AnimationState.ATTACK;
-                    player.playerType.CurrentState = PlayerType.AnimationState.HURT;
-
-                    // TODO: Figure out a way to set this after animations finish
-                    endTurn = true;
-
+                    CurrentState = AnimationState.ATTACK;
                     break;
             }
             
+        }
+
+        public void onTurnStart(AnimationState state)
+        {
+            CurrentState = state;
         }
     }
 }
