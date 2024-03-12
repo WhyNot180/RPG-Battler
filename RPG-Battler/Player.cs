@@ -55,6 +55,8 @@ namespace RPG_Battler
 
         private bool endTurn = false;
 
+        private bool flipped;
+
         public bool EndTurn
         {
             get
@@ -66,11 +68,12 @@ namespace RPG_Battler
             }
         }
 
-        public Player(string name, Vector2 position) 
+        public Player(string name, Vector2 position, bool flipped) 
         {
             this.Name = name;
             MaxMoves = playerMoves.Count;
             this.position = position;
+            this.flipped = flipped;
         }
 
         public void load(ContentManager Content)
@@ -120,16 +123,16 @@ namespace RPG_Battler
             switch (CurrentState)
             {
                 case AnimationState.IDLE:
-                    idleAnimation.Draw(spriteBatch, position);
+                    idleAnimation.Draw(spriteBatch, position, flipped);
                     break;
                 case AnimationState.ATTACK:
-                    attackAnimation.Draw(spriteBatch, position);
+                    attackAnimation.Draw(spriteBatch, position, flipped);
                     break;
                 case AnimationState.HURT:
-                    hurtAnimation.Draw(spriteBatch, position);
+                    hurtAnimation.Draw(spriteBatch, position, flipped);
                     break;
                 case AnimationState.DEATH:
-                    deathAnimation.Draw(spriteBatch, position);
+                    deathAnimation.Draw(spriteBatch, position, flipped);
                     break;
             }
 

@@ -42,7 +42,7 @@ namespace RPG_Battler
             }
             return isFinished;
         }
-        public void Draw(SpriteBatch spriteBatch, Vector2 location)
+        public void Draw(SpriteBatch spriteBatch, Vector2 location, bool horizontalFlip)
         {
             int width = Texture.Width / Columns;
             int height = Texture.Height / Rows;
@@ -51,7 +51,7 @@ namespace RPG_Battler
 
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
 
-            spriteBatch.Draw(Texture, location, sourceRectangle, Color.White, 0, location, Scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(Texture, location, sourceRectangle, Color.White, 0, location, Scale, horizontalFlip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
         }
     }
 }

@@ -39,8 +39,8 @@ namespace RPG_Battler
         {
             // TODO: Add your initialization logic here
 
-            players.Add(new Player("Bob", new Vector2(0,0)));
-            players.Add(new Player("Jerry", new Vector2(30,0)));
+            players.Add(new Player("Bob", new Vector2(0,0), false));
+            players.Add(new Player("Jerry", new Vector2(-500,0), true));
 
             base.Initialize();
         }
