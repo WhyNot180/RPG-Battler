@@ -17,6 +17,14 @@ namespace RPG_Battler
         private int currentFrame;
         private int totalFrames;
         public float Scale {  get; set; }
+
+        /// <summary>
+        /// An animated sprite with a sprite sheet.
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <param name="rows"></param>
+        /// <param name="columns"></param>
+        /// <param name="scale"></param>
         public AnimatedSprite(Texture2D texture, int rows, int columns, float scale)
         {
             Texture = texture;
@@ -30,6 +38,13 @@ namespace RPG_Battler
         {
             currentFrame = 0;
         }
+
+        /// <summary>
+        /// Updates the currently displayed frame at a fixed rate.
+        /// </summary>
+        /// <param name="currentMilli">The current time in milliseconds.</param>
+        /// <param name="fps">The desired frame rate in frames per second.</param>
+        /// <returns>Returns true when the animation has reached the max frames.</returns>
         public bool Update(int currentMilli, double fps)
         {
             bool isFinished = false;
@@ -42,6 +57,13 @@ namespace RPG_Battler
             }
             return isFinished;
         }
+
+        /// <summary>
+        /// Draws the current frame on the window.
+        /// </summary>
+        /// <param name="spriteBatch">The sprite batch in which it should be drawn.</param>
+        /// <param name="location">The location on the window.</param>
+        /// <param name="horizontalFlip">Whether the sprite should be flipped.</param>
         public void Draw(SpriteBatch spriteBatch, Vector2 location, bool horizontalFlip)
         {
             int width = Texture.Width / Columns;

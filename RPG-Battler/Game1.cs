@@ -51,7 +51,6 @@ namespace RPG_Battler
 
             players.ForEach((player) => player.load(Content));
 
-            // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
@@ -59,7 +58,6 @@ namespace RPG_Battler
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
             switch (_state)
             {
                 case GameState.FIGHT:
@@ -88,7 +86,6 @@ namespace RPG_Battler
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
             players.ForEach((player) => player.draw(_spriteBatch));

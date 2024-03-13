@@ -14,6 +14,8 @@ namespace RPG_Battler
         {
             baseAccuracy = 0.5;
             Animation = Player.AnimationState.ATTACK;
+            Name = "Blood Bullet";
+            Description = "Fires a semi-accurate splotch of blood.";
         }
 
         protected override int calculateDamage(Stats attackerStats, Stats defenderStats)

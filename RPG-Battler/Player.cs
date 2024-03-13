@@ -19,7 +19,6 @@ namespace RPG_Battler
         protected AnimatedSprite hurtAnimation;
         protected AnimatedSprite deathAnimation;
 
-        private AnimationState currentState = AnimationState.IDLE;
         public enum AnimationState
         {
             IDLE,
@@ -27,6 +26,9 @@ namespace RPG_Battler
             HURT,
             DEATH
         }
+
+        private AnimationState currentState = AnimationState.IDLE;
+
         public AnimationState CurrentState
         {
             get { return currentState; }
@@ -39,7 +41,8 @@ namespace RPG_Battler
                 deathAnimation.Reset();
             }
         }
-        public AnimationState turnStartState = AnimationState.IDLE;
+
+        public AnimationState turnStartAnimation = AnimationState.IDLE;
 
         private Vector2 position;
 
@@ -54,9 +57,6 @@ namespace RPG_Battler
         public int MaxMoves { get; private set; }
 
         private bool endTurn = false;
-
-        private bool flipped;
-
         public bool EndTurn
         {
             get
@@ -68,6 +68,9 @@ namespace RPG_Battler
             }
         }
 
+        private bool flipped;
+
+
         public Player(string name, Vector2 position, bool flipped) 
         {
             this.Name = name;
@@ -76,14 +79,18 @@ namespace RPG_Battler
             this.flipped = flipped;
         }
 
+        /// <summary>
+        /// Loads all sprites, animations, and stats.
+        /// </summary>
+        /// <param name="Content">The game's content manager.</param>
         public void load(ContentManager Content)
         {
             playerType = new Vampire(Content);
-            this.Stats = playerType.BaseStats;
             idleAnimation = playerType.IdleAnimation;
             attackAnimation = playerType.AttackAnimation;
             hurtAnimation = playerType.HurtAnimation;
             deathAnimation = playerType.DeathAnimation;
+            this.Stats = playerType.BaseStats;
         }
 
         public void animate(GameTime gameTime)
@@ -138,14 +145,20 @@ namespace RPG_Battler
 
         }
 
-        public void useCurrentSelectedAction(Player player, int buttonIndex, SelectableActions action)
+        /// <summary>
+        /// Performs a specified player action, such as attack.
+        /// </summary>
+        /// <param name="selectedPlayer">An external player the action may be performed upon.</param>
+        /// <param name="buttonIndex">The currently selected sub-menu button.</param>
+        /// <param name="action">The selected action.</param>
+        public void useCurrentSelectedAction(Player selectedPlayer, int buttonIndex, SelectableActions action)
         {
             switch (action)
             {
                 case SelectableActions.ATTACK:
-                    playerMoves.ElementAt(buttonIndex).attack(Stats, player.Stats);
+                    playerMoves.ElementAt(buttonIndex).attack(Stats, selectedPlayer.Stats);
                     CurrentState = AnimationState.ATTACK;
-                    player.turnStartState = AnimationState.HURT;
+                    selectedPlayer.turnStartAnimation = AnimationState.HURT;
                     break;
             }
             
@@ -153,7 +166,7 @@ namespace RPG_Battler
 
         public void onTurnStart()
         {
-            CurrentState = turnStartState;
+            CurrentState = turnStartAnimation;
         }
     }
 }

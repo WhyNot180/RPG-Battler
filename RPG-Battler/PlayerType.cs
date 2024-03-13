@@ -17,7 +17,7 @@ namespace RPG_Battler
         public AnimatedSprite AttackAnimation { get; protected set; }
         public AnimatedSprite HurtAnimation { get; protected set; }
         public AnimatedSprite DeathAnimation { get; protected set; }
-        public abstract void passive();
+
 
     }
 }

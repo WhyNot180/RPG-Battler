@@ -19,10 +19,5 @@ namespace RPG_Battler
             HurtAnimation = new AnimatedSprite(Content.Load<Texture2D>("vampire_hurt"), 1, 2, 2);
             DeathAnimation = new AnimatedSprite(Content.Load<Texture2D>("vampire_death"), 1, 8, 2);
         }
-
-        public override void passive()
-        {
-            Console.WriteLine("Hello!");
-        }
     }
 }
