@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace RPG_Battler
 {
-    public interface ISelectable<T>
+    public interface ISelectable
     {
-        void select();
-        string Name { get; }
-        string Description { get; }
+        bool Selected { get; set; }
     }
 }
