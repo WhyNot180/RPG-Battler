@@ -19,14 +19,12 @@ namespace RPG_Battler
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private KeyboardState _keyboardState;
-        private KeyboardState _previousKeyboardState;
+        internal static KeyboardState _keyboardState;
+        internal static KeyboardState _previousKeyboardState;
 
         private int buttonIndex = 0;
 
         private List<Player> players = new List<Player>();
-
-        private int currentPlayerTurn = 0;
 
         public Game1()
         {
@@ -37,7 +35,6 @@ namespace RPG_Battler
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
 
             players.Add(new Player("Bob", new Vector2(0,0), false));
             players.Add(new Player("Jerry", new Vector2(-500,0), true));
@@ -61,16 +58,7 @@ namespace RPG_Battler
             switch (_state)
             {
                 case GameState.FIGHT:
-                    Player currentPlayer = players.ElementAt(currentPlayerTurn);
-                    Player enemyPlayer = players.ElementAt((currentPlayerTurn + 1) % 2);
-                    selectButton(currentPlayer.MaxMoves);
-                    selectMove(currentPlayer, enemyPlayer);
-                    if (players.ElementAt(currentPlayerTurn).EndTurn)
-                    {
-                        currentPlayerTurn++;
-                        enemyPlayer.onTurnStart();
-                    }
-                    if (currentPlayerTurn >= players.Count) currentPlayerTurn = 0;
+                    
                     break;
             }
 
@@ -95,6 +83,7 @@ namespace RPG_Battler
             base.Draw(gameTime);
         }
 
+        //TODO: Add this to a UI class
         private void selectButton(int buttonCount)
         {
             if (_keyboardState.IsKeyDown(Keys.Right) && (_keyboardState.IsKeyDown(Keys.Right) != _previousKeyboardState.IsKeyDown(Keys.Right)))
@@ -111,16 +100,6 @@ namespace RPG_Battler
 
         }
 
-        private void selectMove(Player currentPlayer, Player enemyPlayer)
-        {
-            bool idle = currentPlayer.CurrentState == Player.AnimationState.IDLE;
-            bool enterPressed = _keyboardState.IsKeyDown(Keys.Enter) && (_keyboardState.IsKeyDown(Keys.Enter) != _previousKeyboardState.IsKeyDown(Keys.Enter));
-
-            if (enterPressed && idle)
-            {
-                currentPlayer.useCurrentSelectedAction(enemyPlayer, buttonIndex, Player.SelectableActions.ATTACK);
-            }
-
-        }
+        
     }
 }
