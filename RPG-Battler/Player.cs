@@ -27,6 +27,8 @@ namespace RPG_Battler
             DEATH
         }
 
+        public bool IsAnimating { get; private set; }
+
         private AnimationState currentState = AnimationState.IDLE;
 
         public AnimationState CurrentState
@@ -39,6 +41,13 @@ namespace RPG_Battler
                 attackAnimation.Reset();
                 hurtAnimation.Reset();
                 deathAnimation.Reset();
+                if (currentState == AnimationState.IDLE)
+                {
+                    IsAnimating = false;
+                } else
+                {
+                    IsAnimating = true;
+                }
             }
         }
 
@@ -117,7 +126,10 @@ namespace RPG_Battler
                     break;
                 case AnimationState.HURT:
                     isFinished = hurtAnimation.Update(currentMilli, 10);
-                    if (isFinished) CurrentState = AnimationState.IDLE;
+                    if (isFinished) 
+                    { 
+                        CurrentState = AnimationState.IDLE;
+                    }
                     break;
                 case AnimationState.DEATH:
                     deathAnimation.Update(currentMilli, 10);
