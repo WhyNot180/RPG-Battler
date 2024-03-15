@@ -27,6 +27,8 @@ namespace RPG_Battler
             DEATH
         }
 
+        public bool IsAnimating { get; private set; }
+
         private AnimationState currentState = AnimationState.IDLE;
 
         public AnimationState CurrentState
@@ -39,6 +41,13 @@ namespace RPG_Battler
                 attackAnimation.Reset();
                 hurtAnimation.Reset();
                 deathAnimation.Reset();
+                if (currentState == AnimationState.IDLE)
+                {
+                    IsAnimating = false;
+                } else
+                {
+                    IsAnimating = true;
+                }
             }
         }
 
@@ -52,7 +61,7 @@ namespace RPG_Battler
 
         private PlayerType playerType;
 
-        private List<Move> playerMoves = new List<Move> {new BloodBullet() };
+        private List<Move> playerMoves = new List<Move>();
 
         public int MaxMoves { get; private set; }
 
@@ -74,6 +83,7 @@ namespace RPG_Battler
         public Player(string name, Vector2 position, bool flipped) 
         {
             this.Name = name;
+            playerMoves.Add(new BloodBullet());
             MaxMoves = playerMoves.Count;
             this.position = position;
             this.flipped = flipped;
@@ -83,7 +93,7 @@ namespace RPG_Battler
         /// Loads all sprites, animations, and stats.
         /// </summary>
         /// <param name="Content">The game's content manager.</param>
-        public void load(ContentManager Content)
+        public void Load(ContentManager Content)
         {
             playerType = new Vampire(Content);
             idleAnimation = playerType.IdleAnimation;
@@ -93,7 +103,7 @@ namespace RPG_Battler
             this.Stats = playerType.BaseStats;
         }
 
-        public void animate(GameTime gameTime)
+        public void Animate(GameTime gameTime)
         {
             int currentMilli = gameTime.TotalGameTime.Milliseconds;
             animatePlayerType(currentMilli);
@@ -110,14 +120,17 @@ namespace RPG_Battler
                 case AnimationState.ATTACK:
                     isFinished = attackAnimation.Update(currentMilli, 10);
                     if (isFinished) 
-                    { 
+                    {
                         CurrentState = AnimationState.IDLE;
                         endTurn = true;
                     }
                     break;
                 case AnimationState.HURT:
                     isFinished = hurtAnimation.Update(currentMilli, 10);
-                    if (isFinished) CurrentState = AnimationState.IDLE;
+                    if (isFinished) 
+                    { 
+                        CurrentState = AnimationState.IDLE;
+                    }
                     break;
                 case AnimationState.DEATH:
                     deathAnimation.Update(currentMilli, 10);
@@ -125,7 +138,7 @@ namespace RPG_Battler
             }
         }
 
-        public void draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
             switch (CurrentState)
             {

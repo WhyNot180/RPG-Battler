@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RPG_Battler
+﻿namespace RPG_Battler
 {
-    public interface ISelectable<T>
+    public interface ISelectable
     {
-        void select();
-        string Name { get; }
-        string Description { get; }
+        bool Selected { get; set; }
     }
 }
