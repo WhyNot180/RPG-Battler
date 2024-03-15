@@ -76,7 +76,7 @@ namespace RPG_Battler
             for (int j = 0; j < currentPlayer.MaxMoves; j++)
             {
                 currentPlayerButtons.Add(new Button(new Vector2(j * buttonWidth,380), 
-                    new Vector2(buttonWidth, buttonHeight), buttonTexture, Color.LightSlateGray, 
+                    new Vector2(buttonWidth, buttonHeight), buttonTexture, Color.White, Color.LightSlateGray, 
                     () => currentPlayer.useCurrentSelectedAction(enemyPlayer, j-1, Player.SelectableActions.ATTACK)));
             }
         }

@@ -15,17 +15,19 @@ namespace RPG_Battler
         public Vector2 position;
         public Vector2 size;
         private Texture2D texture;
+        private Color defaultColor;
         private Color colorOnSelect;
         private Action onActivate;
         private bool isPreviousMouseLeftPressed = false;
 
         public bool Selected {  get; set; }
 
-        public Button(Vector2 position, Vector2 size, Texture2D texture, Color colorOnSelect, Action onActivate) 
+        public Button(Vector2 position, Vector2 size, Texture2D texture, Color defaultColor, Color colorOnSelect, Action onActivate) 
         {
             this.position = position;
             this.size = size;
             this.texture = texture;
+            this.defaultColor = defaultColor;
             this.colorOnSelect = colorOnSelect;
             this.onActivate = onActivate;
         }
@@ -62,7 +64,7 @@ namespace RPG_Battler
 
         public void Draw(SpriteBatch _spriteBatch)
         {
-            _spriteBatch.Draw(texture, position, null, Selected ? colorOnSelect : Color.White, 0, Vector2.Zero, size, SpriteEffects.None, 0);
+            _spriteBatch.Draw(texture, position, null, Selected ? colorOnSelect : defaultColor, 0, Vector2.Zero, size, SpriteEffects.None, 0);
         }
     }
 }
