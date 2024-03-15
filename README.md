@@ -2,6 +2,14 @@
 
 **This game is currently WIP, so many features may not be implemented. See [goals](#goals) for more info.
 
+| **Table Of Contents** |
+| --- |
+| **[What is this game about?](#what-is-this-game-about)** |
+| **[Installation](#installation)** |
+| **[Playing the game](#playing-the-game)** |
+| **[Design](#design)** |
+| **[Goals](#goals)** |
+
 ## What is this game about?
 
 This is an turn-based battler for 2 players. 
@@ -29,7 +37,7 @@ Currently, the game consists of only the move buttons, when pressed will perform
 The initial game breakdown:
 ![Game Breakdown](images/game-breakdown.png)
 
-### Goals
+## Goals
 
 - [x] Players
 - Classes:
