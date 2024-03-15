@@ -1,6 +1,6 @@
 # RPG-Battler
 
-**This game is currently WIP, so many features may not be implemented. See [goals](#goals) for more info.
+**This game is currently WIP, so many features may not be implemented. See [issues](https://github.com/WhyNot180/RPG-Battler/issues) and [goals](#goals) for more info.
 
 | **Table Of Contents** |
 | --- |
