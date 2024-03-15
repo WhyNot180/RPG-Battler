@@ -22,6 +22,15 @@ namespace RPG_Battler
 
         public bool Selected {  get; set; }
 
+        /// <summary>
+        /// A clickable button
+        /// </summary>
+        /// <param name="position">Position in pixels</param>
+        /// <param name="size">Size multiplier.</param>
+        /// <param name="texture"></param>
+        /// <param name="defaultColor">Color blended with texture colors.</param>
+        /// <param name="colorOnSelect">Color blended with texture colors.</param>
+        /// <param name="onActivate">Function called when clicked.</param>
         public Button(Vector2 position, Vector2 size, Texture2D texture, Color defaultColor, Color colorOnSelect, Action onActivate) 
         {
             this.position = position;

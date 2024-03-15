@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace RPG_Battler
 {
-    public class Game1 : Game
+    public class Game : Microsoft.Xna.Framework.Game
     {
         private enum GameState
         {
@@ -19,15 +19,15 @@ namespace RPG_Battler
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        internal static KeyboardState _keyboardState;
-        internal static KeyboardState _previousKeyboardState;
-        internal static MouseState _mouseState;
+        private KeyboardState _keyboardState;
+        private KeyboardState _previousKeyboardState;
+        private MouseState _mouseState;
 
         private List<Player> players = new List<Player>();
 
         private Combat combat;
 
-        public Game1()
+        public Game()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";

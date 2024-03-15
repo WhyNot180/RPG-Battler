@@ -57,7 +57,7 @@ namespace RPG_Battler
                 currentPlayerButtons.ForEach(button => button.Update(mouseState));
             }
 
-            // Won't work in an else if, IsAnimating switches too fast
+            // Won't work in an else if because IsAnimating switches too fast
             if (currentPlayer.EndTurn)
             {
                 newTurn();

@@ -1,3 +1,3 @@
 ﻿
-using var game = new RPG_Battler.Game1();
+using var game = new RPG_Battler.Game();
 game.Run();
