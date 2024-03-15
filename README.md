@@ -13,6 +13,18 @@ Players can then choose a stage with various environmental events that may affec
 
 ## Installation
 
+Windows:
+
+Download the [latest release](https://github.com/WhyNot180/RPG-Battler/releases/tag/v0.1.0-alpha) and extract the zip file. Then run RPG-Battler.exe.
+
+Linux:
+
+Download the [latest release](https://github.com/WhyNot180/RPG-Battler/releases/tag/v0.1.0-alpha) and extract the tar.gz file. Then run RPG-Battler.
+
+## Playing the game
+
+Currently, the game consists of only the move buttons, when pressed will perform the respective move and switch to the opponent's turn.
+
 ## Design
 ![Game Breakdown](images/game-breakdown.png)
 
