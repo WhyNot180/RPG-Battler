@@ -26,17 +26,18 @@ Download the [latest release](https://github.com/WhyNot180/RPG-Battler/releases/
 Currently, the game consists of only the move buttons, when pressed will perform the respective move and switch to the opponent's turn.
 
 ## Design
+The initial game breakdown:
 ![Game Breakdown](images/game-breakdown.png)
 
 ### Goals
 
-- [ ] Players
+- [x] Players
 - Classes:
 	- [ ] Samurai
 	- [ ] Cyborg
 	- [ ] Drunkard
 	- [ ] Gunslinger
-	- [ ] Vampire
+	- [x] Vampire
 - [ ] Equipment
 - [ ] Stages
 	- [ ] Environmental events
