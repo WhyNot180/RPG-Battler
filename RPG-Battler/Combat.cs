@@ -1,6 +1,10 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +19,8 @@ namespace RPG_Battler
         private List<Player> players;
         private Player currentPlayer;
         private Player enemyPlayer;
+        private List<Button> currentPlayerButtons = new List<Button>();
+        private Texture2D buttonTexture;
 
         public Combat(List<Player> participatingPlayers) 
         {
@@ -26,6 +32,13 @@ namespace RPG_Battler
             enemyPlayer = players[1];
         }
 
+        public void Load(GraphicsDevice graphicsDevice)
+        {
+            buttonTexture = new Texture2D(graphicsDevice, 1, 1);
+            buttonTexture.SetData(new Color[] { Color.DarkSlateGray });
+            createMoveButtons();
+        }
+
         private void newTurn()
         {
             currentTurn++;
@@ -33,31 +46,39 @@ namespace RPG_Battler
             // Temporary until enemy selection is implemented
             enemyPlayer = players.ElementAt((currentTurn + 1) % players.Count);
             currentPlayer.onTurnStart();
+            currentPlayerButtons.Clear();
+            createMoveButtons();
         }
 
-        public void update()
+        public void Update(MouseState mouseState)
         {
             if (!currentPlayer.IsAnimating)
             {
-                selectButton(currentPlayer.MaxMoves);
-                selectMove(currentPlayer, enemyPlayer);
-                
-            } else if (currentPlayer.EndTurn)
-            
+                currentPlayerButtons.ForEach(button => button.Update(mouseState));
+            }
+
+            // Won't work in an else if, IsAnimating switches too fast
+            if (currentPlayer.EndTurn)
             {
                 newTurn();
             }
         }
 
-        private void selectMove(Player currentPlayer, Player selectedPlayer, int buttonIndex)
+        public void Draw(SpriteBatch _spriteBatch)
         {
-            bool enterPressed = Game1._keyboardState.IsKeyDown(Keys.Enter) && !Game1._previousKeyboardState.IsKeyDown(Keys.Enter);
+            currentPlayerButtons.ForEach(button => button.Draw(_spriteBatch));
+        }
 
-            if (enterPressed)
+        private void createMoveButtons()
+        {
+            int buttonWidth = 200;
+            int buttonHeight = 100;
+            for (int j = 0; j < currentPlayer.MaxMoves; j++)
             {
-                currentPlayer.useCurrentSelectedAction(selectedPlayer, buttonIndex, Player.SelectableActions.ATTACK);
+                currentPlayerButtons.Add(new Button(new Vector2(j * buttonWidth,380), 
+                    new Vector2(buttonWidth, buttonHeight), buttonTexture, Color.LightSlateGray, 
+                    () => currentPlayer.useCurrentSelectedAction(enemyPlayer, j-1, Player.SelectableActions.ATTACK)));
             }
-
         }
     }
 }

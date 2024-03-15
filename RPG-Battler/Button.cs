@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace RPG_Battler
         private Texture2D texture;
         private Color colorOnSelect;
         private Action onActivate;
+        private bool isPreviousMouseLeftPressed = false;
 
         public bool Selected {  get; set; }
 
@@ -51,15 +53,16 @@ namespace RPG_Battler
 
         private void onClick(MouseState mouseState)
         {
-            if (inButton(mouseState) && mouseState.LeftButton == ButtonState.Pressed)
+            if (inButton(mouseState) && mouseState.LeftButton == ButtonState.Pressed && !isPreviousMouseLeftPressed)
             {
                 onActivate();
             }
+            isPreviousMouseLeftPressed = mouseState.LeftButton == ButtonState.Pressed;
         }
 
         public void Draw(SpriteBatch _spriteBatch)
         {
-            _spriteBatch.Draw(texture, position, null, Selected ? colorOnSelect : Color.White, 0, position, size, SpriteEffects.None, 0);
+            _spriteBatch.Draw(texture, position, null, Selected ? colorOnSelect : Color.White, 0, Vector2.Zero, size, SpriteEffects.None, 0);
         }
     }
 }

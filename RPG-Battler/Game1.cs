@@ -21,10 +21,11 @@ namespace RPG_Battler
 
         internal static KeyboardState _keyboardState;
         internal static KeyboardState _previousKeyboardState;
-
-        private int buttonIndex = 0;
+        internal static MouseState _mouseState;
 
         private List<Player> players = new List<Player>();
+
+        private Combat combat;
 
         public Game1()
         {
@@ -39,6 +40,8 @@ namespace RPG_Battler
             players.Add(new Player("Bob", new Vector2(0,0), false));
             players.Add(new Player("Jerry", new Vector2(-500,0), true));
 
+            combat = new Combat(players);
+
             base.Initialize();
         }
 
@@ -46,7 +49,9 @@ namespace RPG_Battler
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            players.ForEach((player) => player.load(Content));
+            players.ForEach((player) => player.Load(Content));
+
+            combat.Load(GraphicsDevice);
 
         }
 
@@ -55,17 +60,19 @@ namespace RPG_Battler
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            _previousKeyboardState = _keyboardState;
+            _keyboardState = Keyboard.GetState();
+            _mouseState = Mouse.GetState();
+
             switch (_state)
             {
                 case GameState.FIGHT:
-                    
+                    combat.Update(_mouseState);
                     break;
             }
 
-            players.ForEach((player) => player.animate(gameTime));
+            players.ForEach((player) => player.Animate(gameTime));
             
-            _previousKeyboardState = _keyboardState;
-            _keyboardState = Keyboard.GetState();
             
             base.Update(gameTime);
         }
@@ -76,28 +83,18 @@ namespace RPG_Battler
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-            players.ForEach((player) => player.draw(_spriteBatch));
+            players.ForEach((player) => player.Draw(_spriteBatch));
+
+            switch (_state)
+            {
+                case GameState.FIGHT:
+                    combat.Draw(_spriteBatch);
+                    break;
+            }
 
             _spriteBatch.End();
 
             base.Draw(gameTime);
-        }
-
-        //TODO: Add this to a UI class
-        private void selectButton(int buttonCount)
-        {
-            if (_keyboardState.IsKeyDown(Keys.Right) && (_keyboardState.IsKeyDown(Keys.Right) != _previousKeyboardState.IsKeyDown(Keys.Right)))
-            {
-                buttonIndex++;
-                if (buttonIndex >= buttonCount) buttonIndex = 0;
-
-            }
-            else if (_keyboardState.IsKeyDown(Keys.Left) && (_keyboardState.IsKeyDown(Keys.Left) != _previousKeyboardState.IsKeyDown(Keys.Left)))
-            {
-                buttonIndex--;
-                if (buttonIndex == -1) buttonIndex = 0;
-            }
-
         }
 
         
